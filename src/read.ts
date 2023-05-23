@@ -10,6 +10,7 @@ import { CaimoWebParser } from "./parse/caimo";
 let bookPath: string = "";
 let parser: Parser;
 const readEOFTip = "";
+let timer: null | NodeJS.Timeout = null;
 
 
 function loadParser(context: ExtensionContext, bookPath: string): Parser {
@@ -59,6 +60,23 @@ export async function readPrevLine(context: ExtensionContext): Promise<string> {
   let percent = parser.getPercent();
   context.globalState.update(bookPath, parser.getPersistHistory());
   return `${content}   ${percent}`;
+}
+
+// 自动翻页
+export async function toggleAutoScroll(context: ExtensionContext): Promise<boolean> {
+  let autoScroll = <number>workspace.getConfiguration().get("shadowReader.scrollTime");
+  if (autoScroll && !timer) {
+      timer = setInterval(async () => {
+        const message = await readNextLine(context);
+        setStatusBarMsg(message);
+      }, autoScroll);
+      return true;
+  } else if (timer) {
+      clearInterval(timer);
+      timer = null;
+      return false;
+  }
+  return false;
 }
 
 export function closeAll(): void {

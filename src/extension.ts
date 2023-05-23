@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import { setStatusBarMsg, searchToEndCommandID, toggleBossMsg } from "./util";
 import { showMainMenu, showSearchKeywordBox } from "./menu";
-import { readNextLine, readPrevLine, closeAll } from "./read";
+import { readNextLine, readPrevLine, closeAll, toggleAutoScroll } from "./read";
 
 
 
@@ -39,6 +39,12 @@ export function activate(context: vscode.ExtensionContext) {
 		toggleBossMsg();
 	});
 	context.subscriptions.push(showBossInfo);
+
+	let autoScroll = vscode.commands.registerCommand("shadowReader.toggleAutoScroll", () => {
+		toggleAutoScroll(context);
+	});
+
+	context.subscriptions.push(autoScroll);
 
 }
 
