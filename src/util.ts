@@ -35,12 +35,17 @@ function showNormalText() {
     timeoutInternal = setTimeout(showBossText, timeoutSecond);
 }
 
-export function toggleBossMsg() {
-    // 已经显示老板信息
+/**
+ * 控制是否显示老板信息
+ * @returns true: 显示正常信息; false: 显示老板信息
+ */
+export function toggleBossMsg(): boolean {
     if (showingText === defaultBossText) {
         showNormalText();
+        return true;
     } else {
         showBossText();
+        return false;
     }
 }
 

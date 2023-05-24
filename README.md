@@ -3,6 +3,7 @@
 vscode摸鱼看书插件，老板站在身后也不发现不了
 
 ## Features
+- 支持自动翻页
 - 支持状态栏显示
 - 支持本地文本阅读
 - 其他编码格式自动转码（支持格式GB18030、Big5、UTF-8、UTF-16、UTF-32等）
@@ -51,9 +52,10 @@ vscode插件市场，搜索`shadow reader`，安装
 ## Extension Settings
 * `shadowReader.pageSize`：每次最多显示字数（默认50）
 * `shadowReader.onlineBookURL`：在线书源，当前已支持笔趣阁
-* `shadowReader.hiddenTime`：自动切换至老板状态时间（单位秒，默认30）
+* `shadowReader.hiddenTime`：自动切换至老板状态时间（单位秒，默认10）
+* `shadowRead.scrollTime`: 自动翻页时间（单位秒，默认1.2）
 * 修改快捷键：首选项 -- 键盘快捷方式
-![feature X](./images/keybind.jpg)
+![feature X](./images/keybind.png)
 
 ## Design Mind
 - 专注vscode插件
@@ -67,6 +69,7 @@ vscode插件市场，搜索`shadow reader`，安装
 ## Future Feature
 - 其他格式支持(比如.epub)
 - 其他隐藏显示手段
+- 前置搜索
 
 ## Inspire
 本插件灵感来自于[Thief-Book-VSCode](https://github.com/cteamx/Thief-Book-VSCode)，二者区别：  

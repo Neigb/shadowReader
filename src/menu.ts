@@ -1,13 +1,17 @@
 import { window, ExtensionContext, workspace } from "vscode";
 import path = require('path');
 import { checkFileDecodeOrConvert, bookLibraryKey, deleteFile } from "./store";
-import { loadFile, searchContentToEnd } from "./read";
-import { setStatusBarMsg } from "./util";
+import { closeAll, loadFile, readNextLine, readPrevLine, searchContentToEnd, toggleAutoScroll, stopAutoScroll } from "./read";
+import { setStatusBarMsg, searchToEndCommandID, toggleBossMsg as toggleBossMsgUtil } from "./util";
 import { Craweler } from "./crawler/interface";
 import { CrawelerDomains } from "./const";
 import { BiquCrawler } from "./crawler/biqu";
 import { CaimoCrawler } from "./crawler/caimo";
 import { BookKind } from "./parse/model";
+
+export { setStatusBarMsg, searchToEndCommandID };
+
+export { readNextLine, readPrevLine, closeAll, toggleAutoScroll };
 
 let bookLibraryDict: object = {};
 
@@ -19,7 +23,7 @@ enum Menu {
     newOnlineBook = "网络书籍",
 }
 
-function hasKey<O>(obj: O, key: keyof any): key is keyof O {
+function hasKey<O extends object>(obj: O, key: keyof any): key is keyof O {
     return key in obj;
 }
 
@@ -153,4 +157,10 @@ export function showSearchKeywordBox(context: ExtensionContext) {
             }
         }
     );
+}
+
+export function toggleBossMsg(context: ExtensionContext) {
+    if (!toggleBossMsgUtil()) {
+        stopAutoScroll(context);
+    }
 }

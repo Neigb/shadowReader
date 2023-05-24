@@ -1,5 +1,5 @@
 import { workspace, ExtensionContext } from "vscode";
-import { setStatusBarMsg } from "./util";
+import { setStatusBarMsg, toggleBossMsg } from "./util";
 import { BookKind, BookStore } from "./parse/model";
 import { Parser } from "./parse/interface";
 import { TxtFileParser } from "./parse/txt";
@@ -62,14 +62,20 @@ export async function readPrevLine(context: ExtensionContext): Promise<string> {
   return `${content}   ${percent}`;
 }
 
-// 自动翻页
-export async function toggleAutoScroll(context: ExtensionContext): Promise<boolean> {
+/**
+ * 控制是否自动翻页
+ * @param context 
+ * @param status 新的状态，表示是否应该自动翻页，如果不传则自动切换
+ * @returns true: 开始自动翻页，false: 停止自动翻页
+ */
+export async function toggleAutoScroll(context: ExtensionContext, status?: boolean): Promise<boolean> {
   let autoScroll = <number>workspace.getConfiguration().get("shadowReader.scrollTime");
-  if (autoScroll && !timer) {
+  const shouldStart = status !== undefined ? status : (autoScroll && !timer);
+  if (shouldStart) {
       timer = setInterval(async () => {
         const message = await readNextLine(context);
         setStatusBarMsg(message);
-      }, autoScroll);
+      }, autoScroll * 1000);
       return true;
   } else if (timer) {
       clearInterval(timer);
@@ -77,6 +83,24 @@ export async function toggleAutoScroll(context: ExtensionContext): Promise<boole
       return false;
   }
   return false;
+}
+
+/**
+ * 开始自动翻页
+ * @param context 
+ * @returns 
+ */
+export async function startAutoScroll(context: ExtensionContext): Promise<boolean> {
+  return toggleAutoScroll(context, true);
+}
+
+/**
+ * 停止自动翻页
+ * @param context 
+ * @returns 
+ */
+export async function stopAutoScroll(context: ExtensionContext): Promise<boolean> {
+  return toggleAutoScroll(context, false);
 }
 
 export function closeAll(): void {
