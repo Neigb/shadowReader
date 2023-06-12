@@ -1,7 +1,7 @@
 {
 	"name": "shadow-reader",
 	"displayName": "shadow reader",
-	"description": "摸鱼划水看书，十分隐蔽",
+	"description": "学习使我快乐",
 	"version": "0.8.6",
 	"publisher": "rainbroadcast",
 	"engines": {
@@ -70,6 +70,14 @@
 			{
 				"command": "shadowReader.toggleAutoScroll",
 				"key": "alt+m"
+			},
+			{
+				"command": "shadowReader.speedDown",
+				"key": "alt+-"
+			},
+			{
+				"command": "shadowReader.speedUp",
+				"key": "alt+="
 			}
 		],
 		"commands": [

@@ -11,6 +11,8 @@ import {
   showSearchKeywordBox,
   toggleAutoScroll,
   toggleBossMsg,
+  setSpeedDown,
+  setSpeedUp
 } from "./menu";
 
 // this method is called when your extension is activated
@@ -66,8 +68,23 @@ export function activate(context: vscode.ExtensionContext) {
       toggleAutoScroll(context);
     }
   );
-
   context.subscriptions.push(autoScroll);
+
+  let speedDown = vscode.commands.registerCommand(
+    "shadowReader.speedDown",
+    () => {
+      setSpeedDown(context);
+    }
+  );
+  context.subscriptions.push(speedDown);
+
+  let speedUp = vscode.commands.registerCommand(
+    "shadowReader.speedUp",
+    () => {
+      setSpeedUp(context);
+    }
+  );
+  context.subscriptions.push(speedUp);
 }
 
 // this method is called when your extension is deactivated

@@ -11,6 +11,7 @@ let bookPath: string = "";
 let parser: Parser;
 const readEOFTip = "";
 let timer: null | NodeJS.Timeout = null;
+let curSpeed: Number = 0;
 
 
 function loadParser(context: ExtensionContext, bookPath: string): Parser {
@@ -62,6 +63,27 @@ export async function readPrevLine(context: ExtensionContext): Promise<string> {
   return `${content}   ${percent}`;
 }
 
+
+export function setSpeedDown(context: ExtensionContext) {
+  if (curSpeed >= 10 || timer === null) {
+    return;
+  }
+  clearInterval(timer);
+  timer = null;
+  curSpeed = <number>curSpeed + 0.5;
+  toggleAutoScroll(context);
+}
+
+export function setSpeedUp(context: ExtensionContext) {
+if (curSpeed <= 1 || timer === null) {
+    return;
+  }
+  clearInterval(timer);
+  timer = null;
+  curSpeed = <number>curSpeed - 0.5;
+  toggleAutoScroll(context);
+}
+
 /**
  * 控制是否自动翻页
  * @param context 
@@ -69,7 +91,7 @@ export async function readPrevLine(context: ExtensionContext): Promise<string> {
  * @returns true: 开始自动翻页，false: 停止自动翻页
  */
 export async function toggleAutoScroll(context: ExtensionContext, status?: boolean): Promise<boolean> {
-  let autoScroll = <number>workspace.getConfiguration().get("shadowReader.scrollTime");
+  let autoScroll = <number>curSpeed || <number>workspace.getConfiguration().get("shadowReader.scrollTime");
   const shouldStart = status !== undefined ? status : (autoScroll && !timer);
   if (shouldStart) {
       timer = setInterval(async () => {

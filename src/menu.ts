@@ -1,7 +1,7 @@
 import { window, ExtensionContext, workspace } from "vscode";
 import path = require('path');
 import { checkFileDecodeOrConvert, bookLibraryKey, deleteFile } from "./store";
-import { closeAll, loadFile, readNextLine, readPrevLine, searchContentToEnd, toggleAutoScroll, stopAutoScroll } from "./read";
+import { closeAll, loadFile, readNextLine, readPrevLine, searchContentToEnd, toggleAutoScroll, stopAutoScroll, setSpeedDown, setSpeedUp } from "./read";
 import { setStatusBarMsg, searchToEndCommandID, toggleBossMsg as toggleBossMsgUtil } from "./util";
 import { Craweler } from "./crawler/interface";
 import { CrawelerDomains } from "./const";
@@ -11,7 +11,7 @@ import { BookKind } from "./parse/model";
 
 export { setStatusBarMsg, searchToEndCommandID };
 
-export { readNextLine, readPrevLine, closeAll, toggleAutoScroll };
+export { readNextLine, readPrevLine, closeAll, toggleAutoScroll, setSpeedDown, setSpeedUp };
 
 let bookLibraryDict: object = {};
 
